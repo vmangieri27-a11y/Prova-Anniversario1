@@ -6,18 +6,15 @@
 
 <title>PER TE ❤️</title>
 
-<!-- FONT CORRETTO -->
 <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 
 <style>
-* {
-  box-sizing: border-box;
-}
+* { box-sizing: border-box; }
 
 body {
   margin: 0;
   font-family: 'Press Start 2P', cursive;
-  background: linear-gradient(135deg, #140000 0%, #2a000f 50%, #140000 100%);
+  background: linear-gradient(135deg, #140000, #2a000f);
   color: white;
   overflow: hidden;
 }
@@ -38,7 +35,6 @@ body::before {
   pointer-events: none;
 }
 
-/* screens */
 .screen {
   display: none;
   height: 100vh;
@@ -77,19 +73,13 @@ button:hover {
 .gif {
   width: 140px;
   margin: 15px;
-  image-rendering: pixelated;
 }
 
-/* ICONS */
+/* ICON */
 .icon {
   width: 90px;
   margin: 10px;
   cursor: pointer;
-  transition: transform 0.2s;
-}
-
-.icon:hover {
-  transform: scale(1.1);
 }
 
 /* POPUP */
@@ -114,6 +104,11 @@ button:hover {
 </head>
 
 <body>
+
+<!-- 🎵 MUSICA (OPZIONE A - FUNZIONANTE) -->
+<audio id="bgmusic" loop>
+  <source src="https://cdn.pixabay.com/audio/2022/03/15/audio_c8b5c8d2d5.mp3" type="audio/mpeg">
+</audio>
 
 <!-- SCHERMATA 1 -->
 <div class="screen active" id="s1">
@@ -161,9 +156,15 @@ button:hover {
 </div>
 
 <script>
+
 function next(n){
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.getElementById('s'+n).classList.add('active');
+
+  // 🎵 MUSICA PARTE QUANDO ENTRA NEL GIOCO
+  if(n === 2){
+    document.getElementById("bgmusic").play();
+  }
 }
 
 function photo(){
@@ -174,17 +175,18 @@ function photo(){
 
 function gift(){
   document.getElementById("content").innerHTML =
-    "<div>REGALO PER TE 🎁</div><img src='IMG_3842.jpeg'>";
+    "<div>REGALO PER TE 🎁</div><div style='margin-top:10px;color:#ff4d6d'>LEZIONE DI TENNIS 🎾</div>";
   document.getElementById("popup").style.display = "block";
 }
 
 function music(){
-  window.open("https://www.youtube.com/watch?v=tTX6sJeZcmI&list=RDtTX6sJeZcmI&start_radio=1", "_blank");
+  document.getElementById("bgmusic").play();
 }
 
 function closeP(){
   document.getElementById("popup").style.display = "none";
 }
+
 </script>
 
 </body>
