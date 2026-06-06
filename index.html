@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PER TE ❤️</title>
+<link href="[fonts.googleapis.com](https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap)" rel="stylesheet">
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: 'Press Start 2P', cursive;
+  background: linear-gradient(135deg, #1a0a0a 0%, #2d0a1a 50%, #1a0a0a 100%);
+  color: white;
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+/* Cuori fluttuanti */
+.hearts {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.heart {
+  position: absolute;
+  font-size: 20px;
+  animation: float 6s ease-in-out infinite;
+  opacity: 0.3;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+  10% { opacity: 0.3; }
+  90% { opacity: 0.3; }
+  100% { transform: translateY(-20vh) rotate(720deg); opacity: 0; }
+}
+
+/* Scanlines */
+body::before {
+  content: "";
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(255,255,255,0.02),
+    rgba(255,255,255,0.02) 1px,
+    transparent 2px,
+    transparent 4px
+  );
+  pointer-events: none;
+  z-index: 1;
+}
+
+.screen {
+  display: none;
+  min-height: 100vh;
+  width: 100vw;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+  padding: 20px;
+  position: relative;
+  z-index: 2;
+}
+
+.active { display: flex; }
+
+h1 {
+  font-size: clamp(12px, 4vw, 18px);
+  color: white;
+  text-shadow: 0 0 20px #ff6b9d, 0 0 40px #ff6b9d;
+  padding: 20px;
+  line-height: 1.8;
+  animation: glow 2s ease-in-out infinite alternate;
+}
+
+@keyframes glow {
+  from { text-shadow: 0 0 20px #ff6b9d, 0 0 40px #ff6b9d; }
+  to { text-shadow: 0 0 30px #ff9ec4, 0 0 60px #ff6b9d, 0 0 80px #ff6b9d; }
+}
+
+p {
+  font-size: clamp(8px, 2.5vw, 10px);
+  color: #ffb3c6;
+  margin-top: 8px;
+  padding: 0 10px;
+  line-height: 1.6;
+}
+
+/* Bottoni */
+button {
+  font-family: 'Press Start 2P', cursive;
+  background: linear-gradient(180deg, #2a0a15 0%, #1a0510 100%);
+  border: 3px solid #ff6b9d;
+  color: white;
+  padding: 15px 25px;
+  margin: 10px;
+  font-size: clamp(8px, 2.5vw, 10px);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-shadow: 0 0 10px #ff6b9d;
+  position: relative;
+  overflow: hidden;
+}
+
+button::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,107,157,0.3), transparent);
+  transition: left 0.5s ease;
+}
+
+button:hover::before {
+  left: 100%;
+}
+
+button:hover {
+  background: linear-gradient(180deg, #ff6b9d 0%, #cc5580 100%);
+  color: white;
+  transform: scale(1.05);
+  box-shadow: 0 0 30px rgba(255,107,157,0.6);
+}
+
+button.disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+  border-color: #666;
+}
+
+button.disabled:hover {
+  background: linear-gradient(180deg, #2a0a15 0%, #1a0510 100%);
+  transform: none;
+  box-shadow: none;
+}
+
+.buttons-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+/* GIF gattino */
+.cat-gif {
+  width: clamp(100px, 30vw, 150px);
+  margin: 15px;
+  image-rendering: auto;
+  border-radius: 10px;
+  animation: bounce 2s ease-in-out infinite;
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+/* Icone regalo */
+.gifts-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 30px;
+  max-width: 600px;
+}
+
+.gift-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+  padding: 15px;
+  border: 2px solid transparent;
+  border-radius: 15px;
+  background: rgba(255,107,157,0.05);
+  width: clamp(120px, 28vw, 160px);
+}
+
+.gift-item:hover {
+  transform: scale(1.1);
+  border-color: #ff6b9d;
+  background: rgba(255,107,157,0.15);
+  box-shadow: 0 0 20px rgba(255,107,157,0.3);
+}
+
+.gift-icon {
+  font-size: clamp(50px, 15vw, 70px);
+  margin-bottom: 10px;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+}
+
+/* POPUP */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.85);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  padding: 20px;
+  backdrop-filter: blur(5px);
+}
+
+.overlay.active {
+  display: flex;
+}
+
+.popup {
+  background: linear-gradient(180deg, #2a0a15 0%, #1a0510 100%);
+  border: 3px solid #ff6b9d;
+  border-radius: 15px;
+  padding: 25px;
+  text-align: center;
+  max-width: 90vw;
+  max-height: 85vh;
+  overflow-y: auto;
+  animation: popIn 0.3s ease-out;
+  box-shadow: 0 0 50px rgba(255,107,157,0.4);
+}
+
+@keyframes popIn {
+  from { transform: scale(0.8); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+.popup h2 {
+  font-size: clamp(10px, 3vw, 14px);
+  color: #ff6b9d;
+  margin-bottom: 20px;
+  text-shadow: 0 0 15px #ff6b9d;
+}
+
+.popup img {
+  max-width: 100%;
+  max-height: 50vh;
+  border: 3px solid #ff6b9d;
+  border-radius: 10px;
+  margin: 15px 0;
+  box-shadow: 0 0 20px rgba(255,107,157,0.3);
+}
+
+.popup button {
+  margin-top: 15px;
+}
+
+/* Audio player custom */
+.audio-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+}
+
+.audio-container .song-title {
+  font-size: clamp(10px, 3vw, 12px);
+  color: #ffb3c6;
+  margin: 10px 0;
+}
+
+audio {
+  width: 100%;
+  max-width: 300px;
+  margin: 10px 0;
+}
+
+/* Emoji animata musica */
+.music-emoji {
+  font-size: 60px;
+  animation: dance 0.5s ease-in-out infinite alternate;
+}
+
+@keyframes dance {
+  from { transform: rotate(-10deg); }
+  to { transform: rotate(10deg); }
+}
+</style>
+</head>
+
+<body>
+
+<!-- Cuori fluttuanti -->
+<div class="hearts" id="hearts"></div>
+
+<!-- SCHERMATA 1: Domanda iniziale -->
+<div class="screen active" id="s1">
+  <img class="cat-gif" src="[media.giphy.com](https://media.giphy.com/media/MDJ9IbxxvDUQM/giphy.gif)" alt="Gattino che balla">
+  <h1>VUOI VEDERE IL TUO REGALO? 🎁</h1>
+  <div class="buttons-container">
+    <button onclick="goToScreen(2)">SÌ PER FAVORE ❤️</button>
+    <button class="disabled" onclick="noClick()">NO</button>
+  </div>
+</div>
+
+<!-- SCHERMATA 2: Promessa -->
+<div class="screen" id="s2">
+  <img class="cat-gif" src="[media.giphy.com](https://media.giphy.com/media/3oriO6qJiXajN0TyDu/giphy.gif)" alt="Gattino innamorato">
+  <h1>TI PROMETTO CHE TI PIACERÀ 💕</h1>
+  <button onclick="goToScreen(3)">VEDIAMO IL REGALO 🎀</button>
+</div>
+
+<!-- SCHERMATA 3: I regali -->
+<div class="screen" id="s3">
+  <h1>QUESTI SONO PER TE! 💝</h1>
+  
+  <div class="gifts-container">
+    
+    <!-- FOTO -->
+    <div class="gift-item" onclick="openPopup('photo')">
+      <span class="gift-icon">📸</span>
+      <p>La nostra foto preferita</p>
+    </div>
+    
+    <!-- REGALO -->
+    <div class="gift-item" onclick="openPopup('gift')">
+      <span class="gift-icon">🎁</span>
+      <p>Un regalo speciale</p>
+    </div>
+    
+    <!-- MUSICA -->
+    <div class="gift-item" onclick="openPopup('music')">
+      <span class="gift-icon">🎵</span>
+      <p>La nostra canzone</p>
+    </div>
+    
+  </div>
+</div>
+
+<!-- OVERLAY POPUP -->
+<div class="overlay" id="overlay" onclick="closePopup(event)">
+  <div class="popup" onclick="event.stopPropagation()">
+    <div id="popupContent"></div>
+    <button onclick="closePopup()">CHIUDI 💕</button>
+  </div>
+</div>
+
+<script>
+// Crea cuori fluttuanti
+function createHearts() {
+  const container = document.getElementById('hearts');
+  const heartSymbols = ['❤️', '💕', '💖', '💗', '💝'];
+  
+  for (let i = 0; i < 15; i++) {
+    const heart = document.createElement('span');
+    heart.className = 'heart';
+    heart.textContent = heartSymbols[Math.floor(Math.random() * heartSymbols.length)];
+    heart.style.left = Math.random() * 100 + '%';
+    heart.style.animationDelay = Math.random() * 6 + 's';
+    heart.style.animationDuration = (4 + Math.random() * 4) + 's';
+    container.appendChild(heart);
+  }
+}
+createHearts();
+
+// Navigazione schermate
+function goToScreen(n) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById('s' + n).classList.add('active');
+}
+
+// Bottone "No" disabilitato (con messaggio carino)
+function noClick() {
+  alert("Dai, non puoi dire di no! 🥺💕");
+}
+
+// Gestione popup
+function openPopup(type) {
+  const content = document.getElementById('popupContent');
+  
+  if (type === 'photo') {
+    content.innerHTML = `
+      <h2>📸 RICORDO SBLOCCATO!</h2>
+      <p>La mia foto preferita di noi due 💕</p>
+      <img src="foto_coppia.JPG" alt="La nostra foto" onerror="this.src='[via.placeholder.com](https://via.placeholder.com/300x200?text=La+Nostra+Foto)'; this.alt='Inserisci foto_coppia.JPG';">
+    `;
+  } 
+  else if (type === 'gift') {
+    content.innerHTML = `
+      <h2>🎁 REGALO SPECIALE!</h2>
+      <p>Solo per te... 💝</p>
+      <img src="IMG_3842.jpeg" alt="Il tuo regalo" onerror="this.src='[via.placeholder.com](https://via.placeholder.com/300x200?text=Il+Tuo+Regalo)'; this.alt='Inserisci IMG_3842.jpeg';">
+    `;
+  } 
+  else if (type === 'music') {
+    content.innerHTML = `
+      <h2>🎵 LA NOSTRA CANZONE</h2>
+      <div class="audio-container">
+        <span class="music-emoji">🎶</span>
+        <p class="song-title">"Questa Domenica" - Olly</p>
+        <p>Ogni volta che la sento penso a te 💕</p>
+        <a href="[youtube.com](https://www.youtube.com/watch?v=tTX6sJeZcmI)" target="_blank">
+          <button type="button">ASCOLTA SU YOUTUBE ▶️</button>
+        </a>
+      </div>
+    `;
+  }
+  
+  document.getElementById('overlay').classList.add('active');
+}
+
+function closePopup(event) {
+  if (!event || event.target.id === 'overlay') {
+    document.getElementById('overlay').classList.remove('active');
+  }
+}
+
+// Chiudi popup con ESC
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') {
+    closePopup();
+  }
+});
+</script>
+
+</body>
+</html>
